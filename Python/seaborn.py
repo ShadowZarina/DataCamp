@@ -31,7 +31,14 @@ plt.show()
 '''
 
 # Create a point plot that uses color to create subgroups
-sns.catplot(kind="point",data=student_data,x="romantic",y="absences",hue="school")
+g = sns.catplot(kind="point",data=student_data,x="romantic",y="absences",hue="school")
+
+# Add a title "Average MPG Over Time"
+g.set_title("Average MPG Over Time")
+
+# Add x-axis and y-axis labels
+g.set(xlabel="Car Model Year",ylabel="Average MPG")
+
 
 # Show plot
 plt.show()
