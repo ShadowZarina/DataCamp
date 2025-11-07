@@ -12,5 +12,8 @@ my_dict = {'country': names, 'drives_right': dr, 'cars_per_cap': cpc}
 # Build a DataFrame cars from my_dict: cars
 cars = pd.DataFrame(my_dict)
 
-# Print cars
+# If a csv file contained all the data rather than using pre-defined lists...
+cars = pd.read_csv('cars.csv', index_col = 0)
+
+# Print out cars
 print(cars)
