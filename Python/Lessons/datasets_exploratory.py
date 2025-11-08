@@ -1,3 +1,6 @@
+'''
+'''
+
 # Update the data type of the 2019 column to a float
 unemployment["2019"] = unemployment["2019"].astype(float)
 # Print the dtypes to check your work
@@ -11,6 +14,9 @@ print(unemployment[not_oceania])
 
 # Print the minimum and maximum unemployment rates during 2021
 print(unemployment["2021"].min(), unemployment["2021"].max())
+
+'''
+'''
 
 # Create a boxplot of 2021 unemployment rates, broken down by continent
 sns.boxplot(x='2021',y='continent',data=unemployment)
@@ -27,6 +33,12 @@ continent_summary = unemployment.groupby("continent").agg(
 )
 print(continent_summary)
 
+'''
+'''
+
 # Create a bar plot of continents and their average unemployment
 sns.barplot(x='continent', y='2021', data=unemployment)
 plt.show()
+
+'''
+'''
