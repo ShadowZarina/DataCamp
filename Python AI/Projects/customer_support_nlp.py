@@ -1,4 +1,30 @@
 '''
+Description:
+In this dynamic project, we leverage the power of SpeechRecognition, Pydub, and spaCy – three open-source packages that form the backbone of your solution. Your objectives are:
+
+- Transcribe a sample customer audio call, stored at sample_customer_call.wav, to showcase the power of open-source speech recognition technology.
+- Analyze sentiment, identify common named entities, and enhance user experience by searching for the most similar customer calls based on a given 
+  query from a subset of their pre-transcribed call data, stored at customer_call_transcriptions.csv.
+- This project is an opportunity to unlock the potential of machine learning to revolutionize customer support. 
+  Let's delve into the interplay between technology and service excellence.
+
+Instructions:
+The company hired you to help them analyze their customer support calls with the following tasks:
+
+Is the audio compatible for future speech recognition modeling?
+- Convert sample_customer_call.wav into text and store the result in transcribed_text.
+- Find the frame rate and number of channels of this audio and save your answer as two numeric variables: frame_rate, number_channels.
+
+How many calls have a true positive sentiment?
+- Perform sentiment analysis on customer_call_transcriptions.csv and find the number of true positive predictions; 
+  save an integer value to true_positive.
+- Use the compound score in the vader module and threshold values of 0.05 and -0.05 to set a sentiment to positive, neutral or negative.
+
+What is the most frequently named entity across all of the transcriptions?
+- Save your answer as a string variable most_freq_ent.
+
+Which call is the most similar to "wrong package delivery"?
+- Save your answer as a string variable most_similar_text.'
 '''
 
 # Download Pydub and spaCy libraries, and pretrained spaCy small English Language model.
