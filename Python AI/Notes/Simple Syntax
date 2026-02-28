@@ -1,0 +1,58 @@
+## Core Setup & Authentication
+
+Install: pip install openai python-dotenv
+API Key Setup: Best practice is to load from a .env file to avoid hardcoding secrets.
+
+
+Initialize Client:
+python
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # Loads API key from .env file
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+
+## Essential Syntax & API Calls
+
+Chat Completion (The core method):
+
+
+response = client.chat.completions.create(
+    model="gpt-4o"# Use latest model
+    messages=[
+        {"role": "system""content": "You are a helpful assistant."}{"role": "user""content": "Explain AI in one sentence."}
+    ], temperature=0.7# Controls randomness
+    max_tokens=150
+)
+
+print(response.choices[0].message.content)
+
+
+Key Parameters:
+messages: A list of messages to maintain conversation history.
+role: 'system' (instructions)'user' (your input)'assistant' (previous model replies).
+temperature: 0-2 range; lower is more deterministic, higher is more creative. 
+
+
+## Advanced & Best Practices
+
+Structured Outputs: Use Pydantic models to force the AI to return data in a specific JSON format.
+Streaming Responses: Set stream=True to get text as it is generated for better UX.
+Error Handling: Use try-except blocks for API errors (e.g.RateLimitError).
+Context Management: Explicitly pass previous messages back to the API within the messages list to maintain conversation continuity. 
+
+
+### Example: Simple Chatbot
+
+python
+def chat_with_ai(prompt):
+    response = client.chat.completions.create(
+        model="gpt-4o", messages=[{"role": "user""content": prompt}]
+    )
+    return response.choices[0].message.content
+
+// User interaction
+user_input = input("Ask something: ")
+print(chat_with_ai(user_input))
