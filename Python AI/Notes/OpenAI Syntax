@@ -1,1 +1,77 @@
+# THE PIPELINE
+from transformers import pipeline
 
+gpt2_pipeline = pipeline(task="text-generation", model="openai-community/gpt2")
+
+print(gpt2_pipeline("What if AI"))
+
+
+# USING INFERENCE PROVIDERS
+import os
+from huggingface_hub import InferenceClient
+
+client = InferenceClient(
+    provider="together",
+    api_key=os.environ["HF_TOKEN"],
+)
+
+completion = client.chat.completions.create(
+    model="deepseek-ai/DeepSeek-V3",
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?"
+        }
+    ],
+)
+
+
+# DATA MANIPULATION
+data = load_dataset("IVN-RIN/BioBERT_Italian", split="train")
+
+// Filter for pattern "bella"
+filtered = data.filter(lambda row: "bella" in row['text'])
+print(filtered)
+
+
+# GRAMMATICAL CORRECTNESS: CODING EXAMPLE
+from transformers import pipeline
+
+// Create a pipeline for grammar checking
+grammar_checker = pipeline(
+    task="text-classification",
+    model="abdulmatinomotoso/English_Grammar_Checker"
+)
+print(grammar_checker("He eat pizza every day."))
+
+
+# QNLI: CODING EXAMPLE
+from transformers import pipeline
+
+classifier = pipeline(
+    task="text-classification",
+    model="cross-encoder/qnli-electra-base"
+)
+classifier("Where is Seattle located?, Seattle is located in Washington state.")
+
+
+# DYNAMIC CATEGORY ASSIGNMENT: CODING EXAMPLE
+classifier = pipeline(
+    task="zero-shot-classification",
+    model="facebook/bart-large-mnli"
+)
+
+text = "Hey, DataCamp: we would like to feature your courses in our newsletter!"
+categories=["marketing","sales","support"]
+
+output = classifier(text, categories)
+print(f"Top Label: {output['labels'][0]} with score: {output['scores'][0]}")
+
+
+# BUILDING A PIPELINE WITH AUTO CLASSES
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
+
+my_model = AutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
+my_tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
+
+my_pipeline = pipeline(task="sentiment-analysis", model=my_model, tokenizer=my_tokenizer)
