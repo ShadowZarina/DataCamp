@@ -5,6 +5,7 @@ gpt2_pipeline = pipeline(task="text-generation", model="openai-community/gpt2")
 
 print(gpt2_pipeline("What if AI"))
 
+--------
 
 # USING INFERENCE PROVIDERS
 import os
@@ -25,6 +26,7 @@ completion = client.chat.completions.create(
     ],
 )
 
+----------
 
 # DATA MANIPULATION
 data = load_dataset("IVN-RIN/BioBERT_Italian", split="train")
@@ -33,6 +35,7 @@ data = load_dataset("IVN-RIN/BioBERT_Italian", split="train")
 filtered = data.filter(lambda row: "bella" in row['text'])
 print(filtered)
 
+----------
 
 # GRAMMATICAL CORRECTNESS: CODING EXAMPLE
 from transformers import pipeline
@@ -44,6 +47,7 @@ grammar_checker = pipeline(
 )
 print(grammar_checker("He eat pizza every day."))
 
+----------
 
 # QNLI: CODING EXAMPLE
 from transformers import pipeline
@@ -54,6 +58,7 @@ classifier = pipeline(
 )
 classifier("Where is Seattle located?, Seattle is located in Washington state.")
 
+----------
 
 # DYNAMIC CATEGORY ASSIGNMENT: CODING EXAMPLE
 classifier = pipeline(
@@ -67,6 +72,7 @@ categories=["marketing","sales","support"]
 output = classifier(text, categories)
 print(f"Top Label: {output['labels'][0]} with score: {output['scores'][0]}")
 
+-----------
 
 # BUILDING A PIPELINE WITH AUTO CLASSES
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
@@ -75,3 +81,57 @@ my_model = AutoModelForSequenceClassification.from_pretrained("distilbert-base-u
 my_tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 
 my_pipeline = pipeline(task="sentiment-analysis", model=my_model, tokenizer=my_tokenizer)
+
+-----------
+
+# EXTRACTING TEXT WITH PYPDF
+from pypdf import PdfReader
+
+reader = PdfReader("US-Employee_Policy.pdf")
+
+document_text = ""
+for page in reader.pages:
+    document_text += page.extract_text()
+    
+-----------
+
+# CREATING A Q&A PIPELINE
+qa_pipeline = pipeline(
+    task="question-answering",
+    model="distilbert-base-cased-distilled-squad"
+)
+
+question = "How many volunteer days are offered annually?"
+
+result = qa_pipeline(question=question, context=document_text)
+print(f"Answer: {result['answer']}")
+
+-----------
+
+# PROMPT ENGINEERING BEST PRACTICES (FORMATTING)
+client = OpenAI(api_key="OPENAI_API_TOKEN")
+
+instructions = """Infer the language and the number of sentences of the given delimited text; then if the text contains more than one sentence, generate a suitable text for it, otherwise, write 'N/A' for the title."""
+
+output_format = """
+        - Text: <the text>
+        - Language: <the text language>
+        - Title: <the generated title>"""
+
+prompt = instructions + output_format + f"```{text}```"
+response = get_response(prompt)
+print(response)
+
+-----------
+
+# CREATING AN EMBEDDINGS REQUEST
+from openai import OpenAI
+
+client = OpenAI(api_key="<OPENAI_API_KEY")
+response = client.embeddings.create(
+    model="text-embedding-3-small",
+    input="Embeddings are a numerical representation of text that can be used to measure the relatedness between two pieces of text"
+)
+
+response_dict = response.model_dump()
+print(response_dict)
